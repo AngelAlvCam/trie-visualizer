@@ -1,13 +1,16 @@
 public class Trie {
     private TrieNode root;
+    private int height;
 
     public Trie() {
         this.root = new TrieNode();
+        this.height = 0;
     }
 
     public boolean insert(String string) {
         // Dummy reference node to traverse on the trie
         TrieNode dummy = this.root;
+        int nodeCounter = 0;
 
         // Traverse the trie for each character on the given string
         for (int i = 0; i < string.length(); i++) {
@@ -21,6 +24,11 @@ public class Trie {
             
             // Update dummy to point to the nested key
             dummy = dummy.getKeys().get(currentChar);
+            nodeCounter += 1;
+        }
+
+        if (nodeCounter > this.height) {
+            this.height = nodeCounter;
         }
 
         // Mark the string as completed
@@ -65,5 +73,9 @@ public class Trie {
             dummy = dummy.getKeys().get(currentChar);
         } 
         return true;
+    }
+
+    public int getHeight() {
+        return this.height;
     }
 }
