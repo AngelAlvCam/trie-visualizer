@@ -5,7 +5,7 @@ public class Trie {
         this.root = new TrieNode();
     }
 
-    public void insert(String string) {
+    public boolean insert(String string) {
         // Dummy reference node to traverse on the trie
         TrieNode dummy = this.root;
 
@@ -24,7 +24,11 @@ public class Trie {
         }
 
         // Mark the string as completed
-        dummy.setStringValue(string);
+        if (dummy.getStringValue() == null) {
+            dummy.setStringValue(string);
+            return true;
+        }
+        return false;
     }
 
     public boolean search(String string) {
