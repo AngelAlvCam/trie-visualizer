@@ -2,24 +2,24 @@ package trie;
 
 import java.util.HashMap;
 
-public class TrieNode {
+class TrieNode {
     private String stringValue;
     private HashMap<Character, TrieNode> keys;
 
-    public TrieNode() {
+    protected TrieNode() {
         this.stringValue = null;
         this.keys = new HashMap<Character, TrieNode>();
     }
 
-    public String getStringValue() {
+    protected String getStringValue() {
         return this.stringValue;
     }
 
-    public HashMap<Character, TrieNode> getKeys() {
+    protected HashMap<Character, TrieNode> getKeys() {
         return this.keys;
     }
 
-    public void setStringValue(String stringValue) {
+    protected void setStringValue(String stringValue) {
         this.stringValue = stringValue;
     }
 
