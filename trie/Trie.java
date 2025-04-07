@@ -1,12 +1,25 @@
 package trie;
 
+import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
+import com.mxgraph.view.mxGraph;
+
 public class Trie {
     private TrieNode root;
     private int height;
+    private mxGraph graph;
+    private mxHierarchicalLayout layout;
+    private Object parent;
 
     public Trie() {
         this.root = new TrieNode();
         this.height = 0;
+        this.graph = new mxGraph();
+        this.parent = this.graph.getDefaultParent();
+        this.layout = new mxHierarchicalLayout(this.graph);
+
+        // Draw root node
+        Object rootNodeGraph = this.graph.insertVertex(this.parent, null, "root", 0, 0, 50, 50);
+        this.root.setNodeGraph(rootNodeGraph);
     }
 
     public boolean insert(String string) {
@@ -22,6 +35,13 @@ public class Trie {
             if (!dummy.getKeys().containsKey(currentChar)) {
                 TrieNode newKey = new TrieNode();
                 dummy.getKeys().put(currentChar, newKey);
+
+                // Create and draw graph node for the new node
+                Object newGraphNode = this.graph.insertVertex(this.parent, null, currentChar, 0, 0, 50, 50);
+                newKey.setNodeGraph(newGraphNode);
+
+                // Draw edge
+                this.graph.insertEdge(this.parent, null, "", dummy.getNodeGraph(), newKey.getNodeGraph());
             }
             
             // Update dummy to point to the nested key
@@ -32,6 +52,9 @@ public class Trie {
         if (nodeCounter > this.height) {
             this.height = nodeCounter;
         }
+
+        // Auto adjust the nodes 
+        this.layout.execute(this.parent);
 
         // Mark the string as completed
         if (dummy.getStringValue() == null) {
@@ -97,5 +120,9 @@ public class Trie {
             counter += countLeavesRec(currentNode.getKeys().get(key));
         }
         return counter;
+    }
+
+    public mxGraph getGraph() {
+        return this.graph;
     }
 }
