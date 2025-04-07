@@ -5,7 +5,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import com.mxgraph.swing.mxGraphComponent;
-import com.mxgraph.view.mxGraph;
 
 import trie.Trie;
 
@@ -54,27 +53,11 @@ public class TrieVisualizer {
         bottomPanel.add(inputPanel, BorderLayout.NORTH);
         bottomPanel.add(statusPanel, BorderLayout.SOUTH);
 
-        // Graphics
-        mxGraph graph = new mxGraph();
-        Object parent = graph.getDefaultParent();
-
-		graph.getModel().beginUpdate();
-		try
-		{
-			Object v1 = graph.insertVertex(parent, null, "H", 1, 1, 40, 40);
-			Object v2 = graph.insertVertex(parent, null, "W", 200, 150, 80, 60);
-			Object v3 = graph.insertVertex(parent, null, "Z", 200, 20, 80, 30);
-			Object e1 = graph.insertEdge(parent, null, "", v1, v2);
-			Object e2 = graph.insertEdge(parent, null, "", v3, v2);
-		}
-		finally
-		{
-			graph.getModel().endUpdate();
-		}
-
-		mxGraphComponent graphComponent = new mxGraphComponent(graph);
+        // Add graphics to a component
+		mxGraphComponent graphComponent = new mxGraphComponent(myTrie.getGraph());
         graphComponent.setZoomPolicy(mxGraphComponent.ZOOM_POLICY_WIDTH);
 
+        // Attach everything to the frame
         frame.add(graphComponent);
         frame.add(bottomPanel, BorderLayout.SOUTH);
         frame.setSize(900, 700);
