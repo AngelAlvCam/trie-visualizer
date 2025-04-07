@@ -78,4 +78,22 @@ public class Trie {
     public int getHeight() {
         return this.height;
     }
+
+    public int countLeaves() {
+        return countLeavesRec(this.root);
+    }
+
+    private int countLeavesRec(TrieNode currentNode) {
+        // If the node is leaf, return
+        if (currentNode.getKeys().isEmpty()) {
+            return 1;
+        }
+        
+        // If the node is not a leaf, check if its childs are...
+        int counter = 0;
+        for (Character key : currentNode.getKeys().keySet()) {
+            counter += countLeavesRec(currentNode.getKeys().get(key));
+        }
+        return counter;
+    }
 }
