@@ -5,6 +5,7 @@ import java.util.HashMap;
 class TrieNode {
     private String stringValue;
     private HashMap<Character, TrieNode> keys;
+    private Object nodeGraph;
 
     protected TrieNode() {
         this.stringValue = null;
@@ -23,4 +24,11 @@ class TrieNode {
         this.stringValue = stringValue;
     }
 
+    protected void setNodeGraph(Object nodeGraph) {
+        this.nodeGraph = nodeGraph;
+    }
+
+    protected Object getNodeGraph() {
+        return this.nodeGraph;
+    }
 }
