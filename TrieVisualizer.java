@@ -1,20 +1,15 @@
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.view.mxGraph;
 
 import trie.Trie;
 
-public class TrieVisualizer extends JPanel {
-
-    public TrieVisualizer() {
-        setPreferredSize(new Dimension(2000, 2000));
-    }
+public class TrieVisualizer {
 
     public static void main(String[] args) {
         // Setup Trie
@@ -22,9 +17,6 @@ public class TrieVisualizer extends JPanel {
 
         // Setup the GUI
         JFrame frame = new JFrame("Trie Visualizer");
-        TrieVisualizer panel = new TrieVisualizer();
-        JScrollPane scrollPane = new JScrollPane(panel);
-        scrollPane.getHorizontalScrollBar().setValue(500);
 
         // Status panel
         JPanel statusPanel = new JPanel();   
@@ -62,11 +54,32 @@ public class TrieVisualizer extends JPanel {
         bottomPanel.add(inputPanel, BorderLayout.NORTH);
         bottomPanel.add(statusPanel, BorderLayout.SOUTH);
 
-        frame.setLayout(new BorderLayout());
-        frame.add(scrollPane, BorderLayout.CENTER);
+        // Graphics
+        mxGraph graph = new mxGraph();
+        Object parent = graph.getDefaultParent();
+
+		graph.getModel().beginUpdate();
+		try
+		{
+			Object v1 = graph.insertVertex(parent, null, "H", 1, 1, 40, 40);
+			Object v2 = graph.insertVertex(parent, null, "W", 200, 150, 80, 60);
+			Object v3 = graph.insertVertex(parent, null, "Z", 200, 20, 80, 30);
+			Object e1 = graph.insertEdge(parent, null, "", v1, v2);
+			Object e2 = graph.insertEdge(parent, null, "", v3, v2);
+		}
+		finally
+		{
+			graph.getModel().endUpdate();
+		}
+
+		mxGraphComponent graphComponent = new mxGraphComponent(graph);
+        graphComponent.setZoomPolicy(mxGraphComponent.ZOOM_POLICY_WIDTH);
+
+        frame.add(graphComponent);
         frame.add(bottomPanel, BorderLayout.SOUTH);
         frame.setSize(900, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
     }
 }
